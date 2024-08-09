@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':hello-world')
+    implementation project(':goodbye-world')
+}
+
+task runTomcat(type: Exec) {
+    dependsOn ':hello-world:war', ':goodbye-world:war'
+    doFirst {
+        def webappDir = new File(projectDir, 'webapps')
+        if (!webappDir.exists()) {
+            webappDir.mkdirs()
+        }
+        copy {
+            from ':hello-world/build/libs/hello-world.war'
+            into webappDir
+        }
+        copy {
+            from ':goodbye-world/build/libs/goodbye-world.war'
+            into webappDir
+        }
+    }
+    commandLine '/path/to/tomcat/bin/catalina.sh', 'run'
+}
+

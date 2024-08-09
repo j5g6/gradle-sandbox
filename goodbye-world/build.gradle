@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'aspectj'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    testImplementation 'junit:junit:4.13.2'
+    aspectjweaver 'org.aspectj:aspectjweaver:1.9.16'
+}
+
+jacoco {
+    toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+task deployGoodbyeWorld {
+    doLast {
+        println 'Deploying Goodbye World Application'
+    }
+}
+
